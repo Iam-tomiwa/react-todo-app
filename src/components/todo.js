@@ -9,7 +9,7 @@ const Todo = props => {
   };
 
   const {data, checkTodo, delTodo} = props;
-  const {name, id, completed} = data;
+  const {name, id, completed, time} = data;
   return (
     <>
       <div className="todo-item">
@@ -28,7 +28,7 @@ const Todo = props => {
             // onClick={checkTodo.bind(this, this.props.data.id)}
             style={todoStyle()}
           >
-            {name}
+            {name} <span>({time})</span>
           </label>
         </div>
         <button className="closeBtn" onClick={delTodo}>

@@ -3,7 +3,7 @@ import {useContext, useState} from "react";
 import {CategoryContext} from "../contexts/CategoryContext";
 
 const TodoWrap = ({todos, item}) => {
-  const [showTasks, setShowTasks] = useState(false);
+  const [showTasks, setShowTasks] = useState(true);
   const {delCategory} = useContext(CategoryContext);
   const showClass = showTasks ? `show` : "hide";
   return (

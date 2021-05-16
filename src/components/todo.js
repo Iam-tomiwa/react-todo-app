@@ -35,7 +35,9 @@ const Todo = props => {
             className="dueTag"
             style={{
               color:
-                dueDate <= getDate().replaceAll("-", "/") ? "red" : "green",
+                dueDate <= getDate().replaceAll("-", "/")
+                  ? "#f15959"
+                  : "#1cc71c",
             }}
           >
             {dueDate}

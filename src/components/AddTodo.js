@@ -65,7 +65,7 @@ const AddTodo = () => {
     <>
       <div className="form-control">
         <button onClick={() => setShowModal(true)} className="add-todo">
-          + Add Todo
+          + Add Task
         </button>
         <div
           onClick={() => setShowModal(false)}

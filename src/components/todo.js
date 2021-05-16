@@ -1,4 +1,6 @@
-import React from "react";
+import React, {useContext} from "react";
+import {TodoContext} from "../contexts/TodoContexts";
+import {getDate} from "./dateFunc";
 
 const Todo = props => {
   const todoStyle = () => {
@@ -7,33 +9,42 @@ const Todo = props => {
       opacity: props.data.completed ? "0.5" : "1",
     };
   };
+  const {checkTodo, delTodo} = useContext(TodoContext);
 
-  const {data, checkTodo, delTodo} = props;
-  const {name, id, completed, time} = data;
+  const {data} = props;
+  const {task, dueDate, id, completed} = data;
   return (
     <>
       <div className="todo-item">
-        <div className="text">
+        <div className="text right">
           <label className="checkbox">
             <input
               type="checkbox"
               id={id}
               checked={completed}
-              onChange={checkTodo}
+              onChange={() => checkTodo(id)}
             />
           </label>
-          <label
-            htmlFor={id}
-            className="check-label"
-            // onClick={checkTodo.bind(this, this.props.data.id)}
-            style={todoStyle()}
-          >
-            {name} <span>({time})</span>
-          </label>
+          <p htmlFor={id} className="check-label" style={todoStyle()}>
+            {task}
+            {/* <span>{time}</span> */}
+          </p>
         </div>
-        <button className="closeBtn" onClick={delTodo}>
-          X
-        </button>
+        <div className="text left">
+          <p
+            className="dueTag"
+            style={{
+              color:
+                dueDate <= getDate().replaceAll("-", "/") ? "red" : "green",
+            }}
+          >
+            {dueDate}
+          </p>{" "}
+          &nbsp; &nbsp;
+          <button className="closeBtn" onClick={() => delTodo(id)}>
+            X
+          </button>
+        </div>
       </div>
       <hr />
     </>

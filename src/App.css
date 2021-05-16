@@ -33,7 +33,6 @@ body {
   font-weight: 400;
   line-height: 1.5;
   font-size: 0.875rem;
-  transition: all 0.3s linear;
   color: var(--text-color);
 }
 .bg-image {
@@ -78,15 +77,40 @@ body {
   text-align: center;
   color: white;
 }
+.add-todo {
+  font-size: 1rem;
+  font-weight: 600;
+}
 
-input[type="text"] {
+.input,
+.add-todo {
   width: 100%;
   background-color: var(--white-color);
-  padding: 1rem 0.5rem;
+  padding: 0 0.5rem;
+  height: 42px;
   border: none;
   border-radius: 5px;
   color: var(--text-color);
   font-family: "Josefin Sans";
+}
+.input {
+  border: 1px solid var(--item-hover);
+  margin: 0.5rem 0;
+}
+.form-group {
+  margin: 1rem 0;
+}
+.dueTag {
+  padding: 0.3rem;
+  border: 1px solid var(--item-hover);
+  border-radius: 4px;
+  font-size: 0.8rem;
+}
+form label {
+  font-weight: 500;
+  display: block;
+  cursor: pointer;
+  width: 100%;
 }
 input:focus {
   outline: none;
@@ -141,11 +165,13 @@ hr {
   border: none;
 }
 /* todo component */
+
 .todo-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.6rem;
+  width: 100%;
+  padding: 1rem 1.5rem;
   /* flex-wrap: wrap; */
   position: relative;
   background-color: var(--white-color);
@@ -156,17 +182,59 @@ hr {
 .todo-item.flex:hover {
   background-color: var(--white-color);
 }
-/* .closeBtn {
+.panel {
+  overflow: hidden;
+  height: 0;
+  transition: all 0.6s ease;
   opacity: 0;
-  transition: 0.3s;
-  transform: translateX(100%);
+  transition: all 0.5s;
 }
-.todo-item:hover .closeBtn {
+.panel.show {
+  height: auto;
+  opacity: 1;
+}
+.category {
+  height: max-content;
+}
+.right {
+  width: 80%;
+}
+.left {
+  width: 17%;
+  justify-content: flex-end;
+}
+.text .check-label {
+  white-space: pre-line;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-width: 90%;
+}
+.accordion-btn {
+  color: var(--text-color);
+  font-weight: 500;
+  width: 100%;
+  background-color: var(--white-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.2rem;
+  border-bottom: 1px solid grey;
+  /* border-radius: 5px; */
+  padding: 0.9rem;
+}
+.closeBtn {
+  border: 1px solid var(--item-hover) !important  ;
+  border-radius: 5px;
+  padding: 0.5rem !important;
+}
+/* .todo-item:hover .closeBtn {
   opacity: 1;
   transform: translateX(0);
 } */
-.todo-item .text {
+.text {
   display: flex;
+  align-items: center;
 }
 .todo-item button,
 .todo-item a {
@@ -178,9 +246,7 @@ hr {
   color: var(--text-color);
   font-family: "Josefin Sans";
 }
-.todo-item {
-  padding: 1rem 2rem;
-}
+
 .todo-item h4 {
   margin-bottom: 0;
 }
@@ -238,6 +304,18 @@ hr {
   .info {
     margin: 6rem auto;
   }
+  .todo-item {
+    padding: 1rem;
+  }
+  .left {
+    width: 40%;
+  }
+  .todo-item .check-label {
+    padding-left: 0.6rem;
+  }
+  .dueTag {
+    font-size: 0.6rem;
+  }
 }
 @media (max-width: 360px) {
   body {
@@ -246,4 +324,26 @@ hr {
   .todo-item.flex {
     padding: 0.6rem 0.4rem;
   }
+  .dueTag {
+    font-size: 0.6rem;
+  }
+  .text {
+    font-size: 0.8rem;
+  }
+  .checkbox > input {
+    width: 14px;
+    height: 14px;
+  }
+}
+.trash {
+  color: var(--text-color);
+  background: transparent;
+  padding: 0.2rem;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 0.5rem;
+  /* border: 2px solid var(--text-color); */
+}
+.trash svg {
+  fill: var(--text-color);
 }

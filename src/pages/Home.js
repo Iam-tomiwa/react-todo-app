@@ -1,6 +1,14 @@
-import Todo from "../components/todo";
-import {Droppable, Draggable} from "react-beautiful-dnd";
-const Home = ({todos, checkTodo, delTodo}) => {
+import {useContext} from "react";
+import {Droppable} from "react-beautiful-dnd";
+import TodoWrap from "../components/TodoWrap";
+import {TodoContext} from "../contexts/TodoContexts";
+import {Draggable} from "react-beautiful-dnd";
+import {CategoryContext} from "../contexts/CategoryContext";
+
+const Home = () => {
+  const {todos} = useContext(TodoContext);
+  const {categories} = useContext(CategoryContext);
+
   return (
     <Droppable droppableId="todo-wrap">
       {provided => (
@@ -9,25 +17,22 @@ const Home = ({todos, checkTodo, delTodo}) => {
           {...provided.droppableProps}
           ref={provided.innerRef}
         >
-          {todos.map((data, index) => {
+          {categories.map((item, index) => {
             return (
-              <Draggable key={data.id} draggableId={data.id} index={index}>
+              <Draggable key={item} draggableId={item + index} index={index}>
                 {provided => (
                   <div
                     ref={provided.innerRef}
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                   >
-                    <Todo
-                      checkTodo={() => checkTodo(data.id)}
-                      delTodo={() => delTodo(data.id)}
-                      data={data}
-                    />
+                    <TodoWrap todos={todos} item={item} />
                   </div>
                 )}
               </Draggable>
             );
           })}
+
           {provided.placeholder}
         </div>
       )}
@@ -36,3 +41,6 @@ const Home = ({todos, checkTodo, delTodo}) => {
 };
 
 export default Home;
+/* 
+ 
+*/

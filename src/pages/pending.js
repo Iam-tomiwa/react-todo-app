@@ -1,8 +1,16 @@
-import React from "react";
-// import { Link, useParams } from 'react-router-dom';
-import Todo from "../components/todo";
-import {Droppable, Draggable} from "react-beautiful-dnd";
-const Pending = ({todos, checkTodo, delTodo}) => {
+import {useContext} from "react";
+import {Droppable} from "react-beautiful-dnd";
+import TodoWrap from "../components/TodoWrap";
+import {CategoryContext} from "../contexts/CategoryContext";
+import {TodoContext} from "../contexts/TodoContexts";
+import {Draggable} from "react-beautiful-dnd";
+
+const Pending = () => {
+  const {todos} = useContext(TodoContext);
+  const {categories} = useContext(CategoryContext);
+
+  const pending = todos.filter(data => data.completed === false);
+
   return (
     <Droppable droppableId="todo-wrap">
       {provided => (
@@ -11,27 +19,22 @@ const Pending = ({todos, checkTodo, delTodo}) => {
           {...provided.droppableProps}
           ref={provided.innerRef}
         >
-          {todos
-            .filter(data => data.completed === false)
-            .map((data, index) => {
-              return (
-                <Draggable key={data.id} draggableId={data.id} index={index}>
-                  {provided => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                    >
-                      <Todo
-                        checkTodo={() => checkTodo(data.id)}
-                        delTodo={() => delTodo(data.id)}
-                        data={data}
-                      />
-                    </div>
-                  )}
-                </Draggable>
-              );
-            })}
+          {categories.map((item, index) => {
+            return (
+              <Draggable key={item} draggableId={item + index} index={index}>
+                {provided => (
+                  <div
+                    ref={provided.innerRef}
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
+                  >
+                    <TodoWrap todos={pending} item={item} />
+                  </div>
+                )}
+              </Draggable>
+            );
+          })}
+
           {provided.placeholder}
         </div>
       )}

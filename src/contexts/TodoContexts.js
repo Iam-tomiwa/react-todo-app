@@ -9,7 +9,7 @@ const TodoContextWrapper = props => {
   useEffect(() => {
     setTodo(
       localStorage.getItem("tomTodo")
-        ? JSON.parse(localStorage.getItem("tomTodo")).reverse()
+        ? JSON.parse(localStorage.getItem("tomTodo"))
         : [
             {
               category: "Today",
@@ -28,7 +28,7 @@ const TodoContextWrapper = props => {
   const delTodo = id => {
     let newTodo = todos.filter(todos => id !== todos.id);
     setTodo(newTodo);
-    localStorage.setItem("tomTodo", JSON.stringify(newTodo.reverse()));
+    localStorage.setItem("tomTodo", JSON.stringify(newTodo));
   };
 
   //   check todo
@@ -41,16 +41,14 @@ const TodoContextWrapper = props => {
       return todo;
     });
     setTodo(newTodo);
-    localStorage.setItem("tomTodo", JSON.stringify(newTodo.reverse()));
-    console.log(todos);
+    localStorage.setItem("tomTodo", JSON.stringify(newTodo));
   };
 
   // add todo
   const addTodo = data => {
     setTodo(oldTodos => {
-      let newTodos = [...oldTodos, data].reverse();
-      localStorage.setItem("tomTodo", JSON.stringify(newTodos.reverse()));
-      console.log(newTodos);
+      let newTodos = [...oldTodos, data];
+      localStorage.setItem("tomTodo", JSON.stringify(newTodos));
       return newTodos;
     });
   };
@@ -59,7 +57,7 @@ const TodoContextWrapper = props => {
   const clearCompleted = () => {
     let newTodos = todos.filter(todo => todo.completed === false);
     setTodo(newTodos);
-    localStorage.setItem("tomTodo", JSON.stringify(newTodos.reverse()));
+    localStorage.setItem("tomTodo", JSON.stringify(newTodos));
   };
   return (
     <TodoContext.Provider

@@ -25,10 +25,10 @@ const Todo = props => {
               onChange={() => checkTodo(id)}
             />
           </label>
-          <p htmlFor={id} className="check-label" style={todoStyle()}>
+          <label htmlFor={id} className="check-label" style={todoStyle()}>
             {task}
             {/* <span>{time}</span> */}
-          </p>
+          </label>
         </div>
         <div className="text left">
           <p

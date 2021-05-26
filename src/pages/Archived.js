@@ -5,10 +5,10 @@ import {TodoContext} from "../contexts/TodoContexts";
 import {Draggable} from "react-beautiful-dnd";
 import {CategoryContext} from "../contexts/CategoryContext";
 
-const Home = () => {
+const Archived = () => {
   const {todos} = useContext(TodoContext);
   const {categories} = useContext(CategoryContext);
-  const categoryList = categories.filter(ct => ct.archived === false);
+  const categoryList = categories.filter(ct => ct.archived === true);
 
   return (
     <Droppable droppableId="todo-wrap">
@@ -42,7 +42,8 @@ const Home = () => {
   );
 };
 
-export default Home;
 /* 
  
 */
+
+export default Archived;

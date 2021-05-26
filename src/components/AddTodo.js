@@ -3,6 +3,7 @@ import "../assets/modal.css";
 import {CategoryContext} from "../contexts/CategoryContext";
 import {TodoContext} from "../contexts/TodoContexts";
 import {getDate, getTime} from "./dateFunc";
+import displayMsg from "./Message";
 // import displayMsg from "./Message";
 
 const AddTodo = () => {
@@ -10,49 +11,63 @@ const AddTodo = () => {
   const {categories, submitCategory} = useContext(CategoryContext);
   const [btnText, setBtnText] = useState("Submit");
   const [showModal, setShowModal] = useState(false);
+  const [isValid, setisValid] = useState(false);
   const [formData, setformData] = useState({
     task: "",
     dueDate: getDate(),
-    category: categories[0],
+    category: categories[0].name,
   });
 
   const [newCt, setNewCt] = useState("");
+  let pattern = new RegExp(/^[a-z]/i);
   const addCategory = () => {
-    if (!categories.includes(newCt)) {
-      submitCategory(newCt);
+    if (newCt && pattern.test(newCt)) {
       setNewCt("");
+      let categoryObject = {
+        id: new Date().getTime().toString(),
+        name: newCt,
+        archived: false,
+      };
+      submitCategory(categoryObject);
       setformData(data => {
-        return {...data, category: newCt};
+        return {...data, category: categoryObject.name};
       });
     }
   };
   // update UI on form submission
   const formHandler = e => {
     e.preventDefault();
-    const newTodo = {
-      id: new Date().getTime().toString(),
-      ...formData,
-      dueDate: formData.dueDate.replaceAll("-", "/"),
-      completed: false,
-      time: getTime(),
-    };
-    addTodo(newTodo);
-    setBtnText(`\u2714 Task Added`);
-    setformData({
-      task: "",
-      dueDate: getDate(),
-      category: categories[0],
-    });
-    setTimeout(() => {
-      setBtnText(`Submit`);
-      setShowModal(false);
-    }, 1000);
+    if (pattern.test(formData.task)) {
+      const newTodo = {
+        id: new Date().getTime().toString(),
+        ...formData,
+        dueDate: formData.dueDate.replaceAll("-", "/"),
+        completed: false,
+        time: getTime(),
+      };
+      console.log(newTodo);
+      addTodo(newTodo);
+      setBtnText(`\u2714 Task Added`);
+      setformData({
+        task: "",
+        dueDate: getDate(),
+        category: categories[0],
+      });
+      setTimeout(() => {
+        setBtnText(`Submit`);
+        setShowModal(false);
+      }, 1000);
+    } else {
+      setisValid(true);
+      setTimeout(() => setisValid(false), 2000);
+      displayMsg("error", "Invalid Task Input");
+    }
   };
 
   const handleFormChange = e => {
     const {name, value} = e.target;
     if (formData.dueDate < getDate()) {
-      // displayMsg("error", "Inavlid Due Date");
+      displayMsg("error", "Inavlid Due Date");
     } else {
       e.target.setCustomValidity("");
       setformData(data => {
@@ -80,6 +95,7 @@ const AddTodo = () => {
             <div className="form-group">
               <label htmlFor="task">Enter Task:</label>
               <input
+                style={{borderColor: isValid ? "red" : "var(--item-hover)"}}
                 required
                 name="task"
                 type="text"
@@ -112,9 +128,9 @@ const AddTodo = () => {
                 name="category"
                 onChange={e => handleFormChange(e)}
               >
-                {categories.map(item => (
-                  <option key={item} value={item}>
-                    {item}
+                {categories.map(({name, id}) => (
+                  <option key={id} value={name}>
+                    {name}
                   </option>
                 ))}
               </select>
@@ -149,40 +165,5 @@ const AddTodo = () => {
     </>
   );
 };
-/* 
-              <div className="category-wrap">
-              <h3></h3>
-            </div>
-              <div className="radio-wrap">
-                <div class="form-control-group">
-                  <input
-                    required
-                    value=""
-                    type="radio"
-                    name="category"
-                    id="1"
-                  />
-                  <label for="1">el.name</label>
-                </div>
-                <div class="form-control-group">
-                  <input
-                    required
-                    value=""
-                    type="radio"
-                    name="category"
-                    id="2"
-                  />
-                  <label for="2">el.name</label>
-                </div>
-                <div class="form-control-group">
-                  <input
-                    required
-                    value=""
-                    type="radio"
-                    name="category"
-                    id="3"
-                  />
-                  <label for="3">el.name</label>
-                </div>
-              </div> */
+
 export default AddTodo;

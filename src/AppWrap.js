@@ -10,6 +10,7 @@ import Links from "./components/links";
 import "./App.css";
 import {TodoContext} from "./contexts/TodoContexts";
 import {CategoryContext} from "./contexts/CategoryContext";
+import Archived from "./pages/Archived";
 
 const AppWrap = () => {
   const {todos, clearCompleted} = useContext(TodoContext);
@@ -32,6 +33,9 @@ const AppWrap = () => {
                 </Route>
                 <Route exact path="/completed">
                   <Completed />
+                </Route>
+                <Route exact path="/archive">
+                  <Archived />
                 </Route>
               </Switch>
             </DragDropContext>

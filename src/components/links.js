@@ -34,6 +34,13 @@ const Links = ({num, clear}) => {
         >
           Completed
         </Link>
+        <Link
+          onClick={e => changeActive(e)}
+          to="/archive"
+          className={window.location.pathname === "/archive" ? "active" : ""}
+        >
+          Archive
+        </Link>
       </div>
       <button onClick={clear}>Clear Completed</button>
     </div>

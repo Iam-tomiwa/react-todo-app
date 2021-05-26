@@ -8,8 +8,8 @@ import {Draggable} from "react-beautiful-dnd";
 const Pending = () => {
   const {todos} = useContext(TodoContext);
   const {categories} = useContext(CategoryContext);
-
-  const pending = todos.filter(data => data.completed === false);
+  const categoryList = categories.filter(ct => ct.archived === false);
+  const pendingTodos = todos.filter(data => data.completed === false);
 
   return (
     <Droppable droppableId="todo-wrap">
@@ -19,16 +19,17 @@ const Pending = () => {
           {...provided.droppableProps}
           ref={provided.innerRef}
         >
-          {categories.map((item, index) => {
+          {categoryList.map((category, index) => {
+            let {name, id} = category;
             return (
-              <Draggable key={item} draggableId={item + index} index={index}>
+              <Draggable key={id} draggableId={name + id} index={index}>
                 {provided => (
                   <div
                     ref={provided.innerRef}
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                   >
-                    <TodoWrap todos={pending} item={item} />
+                    <TodoWrap todos={pendingTodos} category={category} />
                   </div>
                 )}
               </Draggable>

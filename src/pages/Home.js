@@ -18,22 +18,23 @@ const Home = () => {
           {...provided.droppableProps}
           ref={provided.innerRef}
         >
-          {categoryList.map((category, index) => {
-            let {name, id} = category;
-            return (
-              <Draggable key={id} draggableId={name + id} index={index}>
-                {provided => (
-                  <div
-                    ref={provided.innerRef}
-                    {...provided.draggableProps}
-                    {...provided.dragHandleProps}
-                  >
-                    <TodoWrap todos={todos} category={category} />
-                  </div>
-                )}
-              </Draggable>
-            );
-          })}
+          {categoryList &&
+            categoryList.map((category, index) => {
+              let {name, id} = category;
+              return (
+                <Draggable key={id} draggableId={name + id} index={index}>
+                  {provided => (
+                    <div
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                    >
+                      <TodoWrap todos={todos} category={category} />
+                    </div>
+                  )}
+                </Draggable>
+              );
+            })}
 
           {provided.placeholder}
         </div>

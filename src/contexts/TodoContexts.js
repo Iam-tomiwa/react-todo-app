@@ -1,27 +1,14 @@
-import {createContext, useEffect, useState} from "react";
-import {getDate, getTime} from "../components/dateFunc";
+import {createContext, useState} from "react";
+// import {getDate, getTime} from "../components/dateFunc";
 export const TodoContext = createContext();
 
 const TodoContextWrapper = props => {
   // state
-  const [todos, setTodo] = useState(null);
-  //   hooks
-  useEffect(() => {
-    setTodo(
-      localStorage.getItem("tomTodo")
-        ? JSON.parse(localStorage.getItem("tomTodo"))
-        : [
-            {
-              category: "Today",
-              completed: false,
-              dueDate: getDate(),
-              id: "1621042248146",
-              task: "Hello World",
-              time: getTime(),
-            },
-          ]
-    );
-  }, []);
+  const [todos, setTodo] = useState(
+    localStorage.getItem("tomTodo")
+      ? JSON.parse(localStorage.getItem("tomTodo"))
+      : []
+  );
 
   //   event listeners
   // func to del an item

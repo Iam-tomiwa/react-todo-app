@@ -15,7 +15,7 @@ const AddTodo = () => {
   const [formData, setformData] = useState({
     task: "",
     dueDate: getDate(),
-    category: categories[0].name,
+    category: categories.length > 0 ? categories[0].name : "",
   });
 
   const [newCt, setNewCt] = useState("");
@@ -30,14 +30,15 @@ const AddTodo = () => {
       };
       submitCategory(categoryObject);
       setformData(data => {
-        return {...data, category: categoryObject.name};
+        return {...data, category: newCt};
       });
     }
   };
+
   // update UI on form submission
   const formHandler = e => {
     e.preventDefault();
-    if (pattern.test(formData.task)) {
+    if (pattern.test(formData.task) && formData.category) {
       const newTodo = {
         id: new Date().getTime().toString(),
         ...formData,
@@ -45,13 +46,13 @@ const AddTodo = () => {
         completed: false,
         time: getTime(),
       };
-      console.log(newTodo);
+      console.log(newTodo, formData);
       addTodo(newTodo);
       setBtnText(`\u2714 Task Added`);
       setformData({
         task: "",
         dueDate: getDate(),
-        category: categories[0],
+        category: categories[0].name,
       });
       setTimeout(() => {
         setBtnText(`Submit`);
@@ -92,50 +93,55 @@ const AddTodo = () => {
             <span onClick={() => setShowModal(false)} className="closeModal">
               x
             </span>
-            <div className="form-group">
-              <label htmlFor="task">Enter Task:</label>
-              <input
-                style={{borderColor: isValid ? "red" : "var(--item-hover)"}}
-                required
-                name="task"
-                type="text"
-                className="input"
-                id="task"
-                value={formData.task}
-                onChange={e => handleFormChange(e)}
-                placeholder="Enter task"
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="date">Enter Due Date:</label>
-              <input
-                required
-                className="input"
-                name="dueDate"
-                type="date"
-                id="date"
-                min={getDate()}
-                value={formData.dueDate}
-                onChange={e => handleFormChange(e)}
-                placeholder="Enter Date"
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="category">Select Category: </label>
-              <select
-                className="input"
-                value={formData.category}
-                name="category"
-                onChange={e => handleFormChange(e)}
-              >
-                {categories.map(({name, id}) => (
-                  <option key={id} value={name}>
-                    {name}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <h3 style={{textAlign: "center"}}>OR...</h3>
+            {categories.length > 0 && (
+              <>
+                <div className="form-group">
+                  <label htmlFor="task">Enter Task:</label>
+                  <input
+                    style={{borderColor: isValid ? "red" : "var(--item-hover)"}}
+                    required
+                    name="task"
+                    type="text"
+                    className="input"
+                    id="task"
+                    value={formData.task}
+                    onChange={e => handleFormChange(e)}
+                    placeholder="Enter task"
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="date">Enter Due Date:</label>
+                  <input
+                    required
+                    className="input"
+                    name="dueDate"
+                    type="date"
+                    id="date"
+                    min={getDate()}
+                    value={formData.dueDate}
+                    onChange={e => handleFormChange(e)}
+                    placeholder="Enter Date"
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="category">Select Category: </label>
+                  <select
+                    className="input"
+                    value={formData.category}
+                    name="category"
+                    onChange={e => handleFormChange(e)}
+                  >
+                    {categories.map(({name, id}) => (
+                      <option key={id} value={name}>
+                        {name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <h3 style={{textAlign: "center"}}>OR...</h3>
+              </>
+            )}
+
             <div className="form-group">
               <label htmlFor="newCt">Add New Category:</label>
               <div className="pwd-wrap">
@@ -156,9 +162,11 @@ const AddTodo = () => {
                 </button>
               </div>
             </div>
-            <button type="submit" className="btn">
-              {btnText}
-            </button>
+            {categories.length > 0 && (
+              <button type="submit" className="btn">
+                {btnText}
+              </button>
+            )}
           </form>
         </div>
       </div>

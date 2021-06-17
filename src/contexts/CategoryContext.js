@@ -1,19 +1,13 @@
-import {createContext, useEffect, useState} from "react";
+import {createContext, useState} from "react";
 import displayMsg from "../components/Message";
 export const CategoryContext = createContext();
 
 const CategoryContextWrapper = props => {
-  const [categories, setCategories] = useState([
-    {id: 1, name: "Today", archived: false},
-  ]);
-  //   hooks
-  useEffect(() => {
-    setCategories(
-      localStorage.getItem("todoCategories")
-        ? JSON.parse(localStorage.getItem("todoCategories"))
-        : [{id: 1, name: "Today", archived: false}]
-    );
-  }, []);
+  const [categories, setCategories] = useState(
+    localStorage.getItem("todoCategories")
+      ? JSON.parse(localStorage.getItem("todoCategories"))
+      : []
+  );
 
   const delCategory = id => {
     let newCategories = categories.map(ct => {
